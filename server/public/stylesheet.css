@@ -3,7 +3,7 @@
     position: relative;
 }
 
-.block {
+.p1block, .p2block {
     font-size: 48px;
 }
 
@@ -23,7 +23,7 @@ td {
     font-size: 24px;
 }
 
-.colScore {
+.p1colScore, .p2colScore {
     height: 50px;
 }
 
