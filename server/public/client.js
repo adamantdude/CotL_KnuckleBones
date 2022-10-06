@@ -50,7 +50,7 @@ function beginGame() {
     console.log('Game Begin!');
     $('#startBtn').prop('disabled', true);
     $('#resetBtn').prop('disabled', false);
-    turn(randomize(1, 2));
+    turn(player = randomize(1, 2));
     return;
 }
 
