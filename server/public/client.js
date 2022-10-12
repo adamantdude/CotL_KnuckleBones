@@ -32,8 +32,7 @@ const activeBoard = {
     ],
 }
 
-let P1writableBoard;
-let P2writableBoard;
+let writableBoard;
 
 // game / DOM ready function
 function main() {
@@ -41,20 +40,22 @@ function main() {
     $('#startBtn').on('click', beginGame);
     $('#resetBtn').on('click', endGame);
 
-    P1writableBoard = [
-        [$('.p1block#1-1'), $('.p1block#1-2'), $('.p1block#1-3')],
-        [$('.p1block#2-1'), $('.p1block#2-2'), $('.p1block#2-3')],
-        [$('.p1block#3-1'), $('.p1block#3-2'), $('.p1block#3-3')]
-    ];
+    writableBoard = {
+        '1': {
+            '1': [$('.p1block#1-1'), $('.p1block#1-2'), $('.p1block#1-3')],
+            '2': [$('.p1block#2-1'), $('.p1block#2-2'), $('.p1block#2-3')],
+            '3': [$('.p1block#3-1'), $('.p1block#3-2'), $('.p1block#3-3')]
+        },
+        '2': {
+            '1': [$('#1-1.p2block'), $('#1-2.p2block'), $('#1-3.p2block')],
+            '2': [$('#2-1.p2block'), $('#2-2.p2block'), $('#2-3.p2block')],
+            '3': [$('#3-1.p2block'), $('#3-2.p2block'), $('#3-3.p2block')]
+        }
+    }
 
-    P2writableBoard = [
-        [$('.p2block#1-1'), $('.p2block#1-2'), $('.p2block#1-3')],
-        [$('.p2block#2-1'), $('.p2block#2-2'), $('.p2block#2-3')],
-        [$('.p2block#3-1'), $('.p2block#3-2'), $('.p2block#3-3')]
-    ];
-
-    console.log(P1writableBoard);
-    console.log(P2writableBoard);
+    console.log(writableBoard['1']);
+    console.log(writableBoard['2']);
+    console.log($('.p2block'));
     return 0;
 }
 
@@ -110,13 +111,12 @@ function set() {
         }
     }
     if(!set) return;
-    place(column, row-1);
+    place(column, row);
     duringGame();
     return;
 }
 
 // set DOM function
 function place(column, row) {
-    player == 1 ? P1writableBoard[row][column].append(Dice[roll]) : P2writableBoard[row][column].append(Dice[roll]);
-    
+    writableBoard[player][row][column].append(Dice[roll]);
 }
