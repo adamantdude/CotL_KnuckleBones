@@ -101,16 +101,17 @@ function endGame() {
 function set() {
     console.log($(this));
     let column = $(this).attr('id')-1;
-    let board = activeBoard[player];
+    let attacker = activeBoard[player];
     let set = false;
     let row=0;
-    for(; !set && row<board.length; ++row) {
-        if (!board[row][column]) {
-            board[row][column] = roll;
+    for(; !set && row<attacker.length; ++row) {
+        if (!attacker[row][column]) {
+            attacker[row][column] = roll;
             set = true;
         }
     }
     if(!set) return;
+    attack(column);
     place(column, row);
     duringGame();
     return;
@@ -119,4 +120,14 @@ function set() {
 // set DOM function
 function place(column, row) {
     writableBoard[player][row][column].append(Dice[roll]);
+}
+
+function attack(column) {
+    let defender = activeBoard[player == 1 ? 2 : 1]
+    for(let row=0; row<defender.length; ++row) {
+        if(defender[row][column] == roll) {
+            writableBoard[player == 1 ? 2 : 1][row+1][column].text('');
+            defender[row][column] = 0;
+        }
+    }
 }
