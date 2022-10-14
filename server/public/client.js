@@ -30,15 +30,20 @@ const activeBoard = {
         [0, 0, 0],
         [0, 0, 0],
     ],
+    reset: function () {
+        this[1] = this[1].map(x => x = x.map(y => y = 0));
+        this[2] = this[2].map(x => x = x.map(y => y = 0));
+    }
 }
 
 let writableBoard;
 
 // game / DOM ready function
 function main() {
+
     console.log('Start!');
     $('#startBtn').on('click', beginGame);
-    $('#resetBtn').on('click', endGame);
+    $('#resetBtn').on('click', resetGame);
 
     writableBoard = {
         '1': {
@@ -93,8 +98,18 @@ function duringGame() {
     return;
 }
 
+function resetGame() {
+    console.log('Game Reset!');
+    $('#startBtn').prop('disabled', false);
+    $('#resetBtn').prop('disabled', true);
+    $('.p1block').text(''); $('.p2block').text('');
+    $('.p1colScore').text(''); $('.p2colScore').text('');
+    activeBoard.reset();
+    endGame();
+}
+
 function endGame() {
-    return;
+    console.log('game ended!');
 }
 
 // set state function
@@ -106,28 +121,56 @@ function set() {
     let row=0;
     for(; !set && row<attacker.length; ++row) {
         if (!attacker[row][column]) {
+            // set to the DOM
+            writableBoard[player][row+1][column].append(Dice[roll]);
+            // set to the STATE
             attacker[row][column] = roll;
             set = true;
         }
     }
     if(!set) return;
     attack(column);
-    place(column, row);
+    calculateScore();
     duringGame();
     return;
-}
-
-// set DOM function
-function place(column, row) {
-    writableBoard[player][row][column].append(Dice[roll]);
 }
 
 function attack(column) {
     let defender = activeBoard[player == 1 ? 2 : 1]
     for(let row=0; row<defender.length; ++row) {
         if(defender[row][column] == roll) {
+            // reset the DOM
             writableBoard[player == 1 ? 2 : 1][row+1][column].text('');
+            // reset the STATE
             defender[row][column] = 0;
         }
     }
+}
+
+function calculateScore() {
+    let p1 = {
+        scores: [0, 0, 0],
+        boardFill: [0, 0, 0]
+    };
+
+    let p2 = {
+        scores: [0, 0 ,0],
+        boardFill: [0, 0, 0]
+    };
+
+    let endGameCheck = false;
+
+    p1.scores = activeBoard[1].reduce((prev, next) => {
+        prev[0] += next[0]; prev[1] += next[1]; prev[2] += next[2];
+        return prev;
+    }, [0, 0, 0])
+
+    p2.scores = activeBoard[2].reduce((prev, next) => {
+        prev[0] += next[0]; prev[1] += next[1]; prev[2] += next[2];
+        return prev;
+    }, [0, 0, 0])
+
+    console.log("player1 score: ", p1.scores);
+
+    console.log("player2 score: ", p2.scores);
 }
