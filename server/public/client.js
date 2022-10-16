@@ -19,6 +19,11 @@ let player = 1;
 
 let roll = 0;
 
+let totalPoints = {
+    '1': 0,
+    '2': 0
+}
+
 const activeBoard = {
     '1': [
         [0, 0, 0],
@@ -38,12 +43,24 @@ const activeBoard = {
 
 let writableBoard;
 
+let boardPoints;
+
 // game / DOM ready function
 function main() {
 
     console.log('Start!');
     $('#startBtn').on('click', beginGame);
     $('#resetBtn').on('click', resetGame);
+
+    setJQPointers();
+
+    console.log(writableBoard['1']);
+    console.log(writableBoard['2']);
+    console.log($('.p2block'));
+    return 0;
+}
+
+function setJQPointers() {
 
     writableBoard = {
         '1': {
@@ -58,10 +75,11 @@ function main() {
         }
     }
 
-    console.log(writableBoard['1']);
-    console.log(writableBoard['2']);
-    console.log($('.p2block'));
-    return 0;
+    boardPoints = {
+        '1': [$('#1.p1colScore'), $('#2.p1colScore'), $('#3.p1colScore')],
+        '2': [$('#1.p2colScore'), $('#2.p2colScore'), $('#3.p2colScore')]
+    }
+
 }
 
 // render the dice roll
@@ -103,13 +121,14 @@ function resetGame() {
     $('#startBtn').prop('disabled', false);
     $('#resetBtn').prop('disabled', true);
     $('.p1block').text(''); $('.p2block').text('');
-    $('.p1colScore').text(''); $('.p2colScore').text('');
+    $('.p1colScore').text('0'); $('.p2colScore').text('0');
     activeBoard.reset();
-    endGame();
 }
 
 function endGame() {
-    console.log('game ended!');
+    console.log('game ended! there\'s a winner!');
+
+    totalPoints[1] > totalPoints[2] ? console.log('Player 1 Wins!') : console.log('Player 2 Wins!');
 }
 
 // set state function
@@ -131,7 +150,6 @@ function set() {
     if(!set) return;
     attack(column);
     calculateScore();
-    duringGame();
     return;
 }
 
@@ -148,29 +166,37 @@ function attack(column) {
 }
 
 function calculateScore() {
-    let p1 = {
+    let activePlayer = {
         scores: [0, 0, 0],
-        boardFill: [0, 0, 0]
-    };
-
-    let p2 = {
-        scores: [0, 0 ,0],
         boardFill: [0, 0, 0]
     };
 
     let endGameCheck = false;
 
-    p1.scores = activeBoard[1].reduce((prev, next) => {
-        prev[0] += next[0]; prev[1] += next[1]; prev[2] += next[2];
-        return prev;
-    }, [0, 0, 0])
+    for(let i=0; i<MAX_ROW; ++i) {
+        let newObj = columnCount(i);
+        for(let num in newObj) {
+            if(num > 0 && newObj[num] > 0) {
+                activePlayer.scores[i] += Math.pow(num, newObj[num]);
+                activePlayer.boardFill[i] += newObj[num];
+            }
+        }
+        boardPoints[player][i].text(activePlayer.scores[i]);
+    }
 
-    p2.scores = activeBoard[2].reduce((prev, next) => {
-        prev[0] += next[0]; prev[1] += next[1]; prev[2] += next[2];
-        return prev;
-    }, [0, 0, 0])
+    totalPoints[player] = activePlayer.scores.reduce((x, y) => x + y);
 
-    console.log("player1 score: ", p1.scores);
+    if(activePlayer.boardFill.reduce((x, y) => x + y) == 9) endGameCheck = true;
 
-    console.log("player2 score: ", p2.scores);
+    endGameCheck ? endGame() : duringGame();
+}
+
+function columnCount(i) {
+    let count = {
+        '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0
+    };
+    
+    activeBoard[player].map(x => x[i]).map(y => count[y] ? count[y] += 1 : count[y] = 1);
+
+    return count;
 }
