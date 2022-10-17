@@ -10,7 +10,7 @@
 
 body {
     text-align: center;
-    background-color: bisque;
+    /* background-color: bisque; */
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 2fr 0.5fr 2fr;
