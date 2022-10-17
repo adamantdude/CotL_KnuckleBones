@@ -51,7 +51,9 @@ function main() {
 
     console.log('Start!');
     $('#startBtn').on('click', beginGame);
-    $('#resetBtn').on('click', resetGame);
+    $('#resetBtn').on('click', swalReset);
+    $('#howPlayBtn').on('click', howPlay);
+    $('#howScoreBtn').on('click', howScore);
 
     setJQPointers();
 
@@ -127,6 +129,18 @@ function duringGame() {
     return;
 }
 
+function swalReset() {
+    swal.fire({
+        icon: 'question',
+        showDenyButton: true,
+        title: 'Do you want to reset the game?',
+        confirmButtonText: 'Reset'
+    })
+        .then(value => {
+            if(value.isConfirmed) resetGame();
+        })
+}
+
 // reset the game
 function resetGame() {
     console.log('Game Reset!');
@@ -134,6 +148,7 @@ function resetGame() {
     $('#startBtn').prop('disabled', false);
     $('#resetBtn').prop('disabled', true);
     // clear text for new game
+    $('.p1colScore').off('click'); $('.p2colScore').off('click');
     $('.p1block').text(''); $('.p2block').text('');
     $('.p1colScore').text('0'); $('.p2colScore').text('0');
     $('.score').text('0');
@@ -252,4 +267,37 @@ function addTotal(num, instance) {
         sum += Number(num);
     }
     return sum * instance;
+}
+
+function howPlay() {
+    swal.fire({
+        title: 'How to Play',
+        html: `
+            This is a game of risk vs. reward. <hr>
+            Each player on their turn will receive a randomly generated dice roll. <hr>
+            They may place their dice on any column of the board as long as the column is not already full. <hr>
+            In doing so, the player attacks any matching dice on the opponent's side of the board e.g. a 4 will
+            attack a 4, and remove it from their side. <hr>
+            When one side of the board is filled, the game ends. </br>
+            The player with the highest total score wins!
+        `
+    })
+}
+
+function howScore() {
+    swal.fire({
+        title: 'How Score Works',
+        html: `
+            Score is calculated by adding up the faces of the dice. Matching
+            dice in a column are multiplied by the number of instances. <hr>
+            For example, two dice showing 5 will equal 20. </br>
+            (5 + 5) * 2 = 20 <hr>
+            Another example, three dice showing 3 will equal 27. </br>
+            (3 + 3 + 3) * 3 = 27 <hr>
+            The dice do not need to be placed together to get the bonus.</br>
+            A column showing 5-3-5 will still get the bonus of two 5 dice and equal 23. </br>
+            ((5 + 5) * 2) + 3 = 23 <hr>
+            Total score is the sum of all columns added together.
+        `
+    })
 }

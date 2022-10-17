@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="./jquery-3.6.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.2/dist/sweetalert2.all.min.js" integrity="sha256-wLk4yXmqQvDv8x5C501KgoVtR2yHYUpOKspL/KpR+/8=" crossorigin="anonymous"></script>
     <script src="./client.js"></script>
     <link rel="stylesheet" href="./stylesheet.css">
     <title>Knucklebones</title>
@@ -40,9 +41,9 @@
             </tr>
         </tbody>
     </table>
-    <div>
-        <button id="howPlayBtn">How to Play:</button>
-        <!-- Set up buttons for Sweetalert2 -->
+    <div id="gameInfo">
+        <button id="howPlayBtn">How to Play</button>
+        <button id="howScoreBtn">How Score Works</button>
     </div>
     <table id="middle">
         <tr>
@@ -52,13 +53,12 @@
             <td id="mid">-</td>
             <td class="score" id="p2Score">0</td>
             <td class="roll" id="p2Roll"></td>
-            <td><button id="resetBtn">RESET</button></td>
+            <td><button id="resetBtn" disabled>RESET</button></td>
         </tr>
     </table>
     </h1>
     <div>
-        <button id="howScoreBtn">How to Score:</button>
-        <!-- Set up buttons for Sweetalert2 -->
+        <!-- Extra Space for anything. Maybe an icon -->
     </div>
     <table class="board" id="2">
         <tbody id="p2Side">

@@ -59,3 +59,19 @@ td {
 h3 {
     font-size: 48px;
 }
+
+#gameInfo {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 2fr 0.5fr 0.5fr 2fr;
+}
+
+#howPlayBtn {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+#howScoreBtn {
+    grid-column:2;
+    grid-row: 3;
+}
