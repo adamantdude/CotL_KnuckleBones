@@ -1,6 +1,6 @@
-const express = requires('express');
+const express = require('express');
 const app = express();
-const bodyParser = requires('body-parser');
+const bodyParser = require('body-parser');
 
 app.use(express.static('./server/public'));
 

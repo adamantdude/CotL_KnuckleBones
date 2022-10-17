@@ -107,6 +107,7 @@ function beginGame() {
     $('#startBtn').prop('disabled', true);
     $('#resetBtn').prop('disabled', false);
     player = randomize(1, 2);
+    player == 2 ? $('#player1.turnText').text('Player 1 Starts!') : $('#player2.turnText').text('Player 2 Starts!');
     duringGame();
     return;
 }
@@ -144,11 +145,16 @@ function resetGame() {
 function endGame() {
     console.log('game ended! there\'s a winner!');
 
+    $('.turnText').text('');
+    let winner = totalPoints[1] > totalPoints[2] ? $('#player1.turnText') : $('#player2.turnText');
+    winner.text('YOU WIN!!');
+
     totalPoints[1] > totalPoints[2] ? console.log('Player 1 Wins!') : console.log('Player 2 Wins!');
 }
 
 // set state function
 function set() {
+    $('.turnText').text('');
     console.log($(this));
     let column = $(this).attr('id')-1; // set dice in column of button pressed
     let attacker = activeBoard[player]; // active player board ; whoever's turn it is

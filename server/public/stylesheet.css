@@ -42,6 +42,10 @@ td {
     /* background-color: rgba(0, 0, 0, 0%); */
 }
 
+.turnText {
+    font-size: 24px;
+}
+
 .roll {
     font-size: 48px;
 }
