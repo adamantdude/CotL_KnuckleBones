@@ -177,7 +177,7 @@ function calculateScore() {
         let newObj = columnCount(i);
         for(let num in newObj) {
             if(num > 0 && newObj[num] > 0) {
-                activePlayer.scores[i] += Math.pow(num, newObj[num]);
+                activePlayer.scores[i] += addTotal(num, newObj[num]);
                 activePlayer.boardFill[i] += newObj[num];
             }
         }
@@ -199,4 +199,12 @@ function columnCount(i) {
     activeBoard[player].map(x => x[i]).map(y => count[y] ? count[y] += 1 : count[y] = 1);
 
     return count;
+}
+
+function addTotal(num, instance) {
+    let sum = 0;
+    for(let i=0; i<instance; ++i) {
+        sum += Number(num);
+    }
+    return sum * instance;
 }
