@@ -276,7 +276,7 @@ function howPlay() {
             This is a game of risk vs. reward. <hr>
             Each player on their turn will receive a randomly generated dice roll. <hr>
             They may place their dice on any column of the board as long as the column is not already full. <hr>
-            In doing so, the player attacks any matching dice on the opponent's side of the board e.g. a 4 will
+            In doing so, the player attacks any matching dice on the opponent's matching column of the board e.g. a 4 will
             attack a 4, and remove it from their side. <hr>
             When one side of the board is filled, the game ends. </br>
             The player with the highest total score wins!
