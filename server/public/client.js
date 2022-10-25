@@ -148,6 +148,7 @@ function resetGame() {
     $('#startBtn').prop('disabled', false);
     $('#resetBtn').prop('disabled', true);
     // clear text for new game
+    $('.turnText').text('');
     $('.p1colScore').off('click'); $('.p2colScore').off('click');
     $('.p1block').text(''); $('.p2block').text('');
     $('.p1colScore').text('0'); $('.p2colScore').text('0');
@@ -160,7 +161,7 @@ function resetGame() {
 function endGame() {
     console.log('game ended! there\'s a winner!');
 
-    $('.turnText').text('');
+    $('.turnText').text(''); $('.roll').text('');
     let winner = totalPoints[1] > totalPoints[2] ? $('#player1.turnText') : $('#player2.turnText');
     winner.text('YOU WIN!!');
 
